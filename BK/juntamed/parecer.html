@@ -1,0 +1,283 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 STRict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-sTRict.dTD">
+
+<HTML xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR" xml:lang="pt-BR">
+<HEAD>
+
+<meta http-equiv="Pragma" content="no-cache" />
+<meta name="language" content="pt-BR" />
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+
+<TITLE>JUNTAMED - Pareceres da Junta Médica</TITLE>
+
+
+<link rel="stylesheet" type="text/css" href="/juntamed/css/principal2.css">
+<link rel="stylesheet" type="text/css" href="/lib/scripts/geral/autocomplete/jquery.autocomplete.css" />
+<link rel="stylesheet" type="text/css" href="/lib/css/ui.datepicker.css"/>
+
+<script src="/lib/scripts/geral/jquery.js" type="text/javascript" ></script>
+<script src="/lib/scripts/geral/jquery.maskedinput.js" type="text/javascript" ></script>
+<script src="/lib/scripts/geral/ui.datepicker.js" type="text/javascript" ></script>
+<script src="/lib/scripts/geral/ui.datepicker-pt-BR.js" type="text/javascript" ></script>
+<script src="/lib/scripts/geral/autocomplete/lib/jquery.bgiframe.min.js" type="text/javascript" ></script>
+<script src="/lib/scripts/geral/autocomplete/lib/jquery.dimensions.min.js" type="text/javascript" ></script>
+<script src="/lib/scripts/geral/autocomplete/jquery.autocomplete.min.js" type="text/javascript" ></script>
+<script src="/lib/scripts/TRT14/dataehoras.js" type="text/javascript" ></script>
+
+<script src="scripts/comhash.js" type="text/javascript" ></script>
+<script src="scripts/parecer.js" type="text/javascript" ></script>
+<script src="/scripts/funcoes.js" type="text/javascript" ></script>
+
+<script > 
+function recarregaCombo() {
+	// Preenche a lista dos Modelos de Parecer
+	preencheComHash('lista_pareceres','todos','pareceres','...');
+}
+</script>
+</HEAD>
+
+<BODY onload="montafocus();">
+
+		<DIV id="outter">
+			<B><DIV id="inner">JUNTAMED - Pareceres da Junta Médica</DIV></B>
+		</DIV>
+<TABLE><BR>
+<caption>DADOS DO REQUERIMENTO MÉDICO</caption>
+</TABLE>
+<TABLE>
+	<TR ALIGN="left" VALIGN="middle"> 
+		<TD> 
+			<label><B>Servidor(a):</B></label><BR>
+			<input type="text"  id='achaservidor' size='54'/>	
+		</TD>
+		<TD> &nbsp; &nbsp;
+			<B>Tipo:</B><BR> &nbsp; &nbsp;
+			<select id='tipo'>
+				<option value ="0">...</option>
+				<option value ="1">LTS</option>
+				<option value ="3">LTS-PF</option>
+				<option value ="9">GESTANTE</option>
+			</select>
+		</TD>
+		<TD> &nbsp; &nbsp;
+			<B>Processo:</B><BR> &nbsp; &nbsp;
+			<input type="text" id="processo" size="23"/>
+		</TD>
+		<TD> &nbsp; 
+			<B>Protocolo:</B><BR> &nbsp; 
+			<INPUT class="campo" type="text" id="protocolo" name="protocolo" onKeyPress="return soNumero(event);" onKeyUp="JumpField(this,'dtprotocolo');" size="8" maxlength="6"/>
+		</TD>
+		<TD>
+			<DIV> &nbsp; 
+			<B>Data do Prot:</B><BR>
+			<SPAN> &nbsp; 
+				<INPUT id="dtprotocolo" type="text" size="12" maxlength="10" name="dtprotocolo" onKeyUp="JumpField2(this);"/>
+			</SPAN>
+			</DIV>
+		</TD>
+		
+	</TR>
+</TABLE>
+
+<DIV id="foto">
+
+<TABLE>
+	 <TR>
+		<TD>
+			<img id="imgfoto" class='foto'/><BR> &nbsp; 
+			<SPAN id='codigo' class='direito'></SPAN>
+		</TD>
+		<TD>
+			<P id='dados' >
+					<b>Cargo</b><BR>
+					<SPAN id='cargo'></SPAN><BR>
+					<SPAN>
+				<TABLE>
+					<TR><BR>
+						<TD>
+							<b id='tit_classe'>Classe / Padrão</b><BR>
+							<SPAN id='classe'></SPAN><BR>
+						</TD>
+					<TD >
+						<b>Posse</b><BR>
+						<SPAN id='posse'></SPAN>
+					</TD>
+						<TD>
+							<b>Exercício</b><BR>
+							<SPAN id='exercicio'></SPAN><BR><BR>
+						</TD>
+					</TR>
+				</TABLE>			
+				</SPAN>	
+				<SPAN>	
+				<table>
+					<TR>						
+							<B>Setor</B><BR>
+							<SPAN id='setor'></SPAN><BR><BR>
+						
+							<TD>
+								<b id='tit_funcao'>Cargo/Função</b><BR>
+								<SPAN id='funcao'></SPAN><BR>
+							</TD>
+							<TD>
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Ramal</b><BR>
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <SPAN id='ramal'></SPAN><BR>
+							</TD>
+						
+					</TR>
+					</table>
+</SPAN>	
+			</P>
+		</TD>
+	 </TR>
+</TABLE>
+</DIV>
+<BR>
+
+<DIV id='msg2'></DIV>
+
+<TABLE>
+	<CAPTION>INCLUSÃO DE ATESTADO MÉDICO</CAPTION>
+</TABLE>
+<TABLE>
+	<TD colspan="2" id="tbfoot2"><BR> &nbsp; &nbsp
+		<INPUT type="button" id="bt_Atestado" value="Incluir + 1 Atestado Médico" style="cursor:Pointer" onClick="apareceAtestado();"/>
+	</TD>
+</TABLE>
+<table width="850" height="40" border="0" cellspacing="0" id='table_atestado01' border="#FFFFFF" bgcolor="#FFFFFF">
+  <!--DWLayoutTable-->
+  <tr class="body2">
+    <td border="#FFFFFF" width="144" height="46" valign="middle"><div align="left" id='dt_solicita_ini'> 
+		<INPUT type="hidden" name="identificacao" id="identificacao" value="0">
+       <B><SPAN id='periodo_solicitado'>Período Solicitado:</SPAN><BR></B> De
+	   <INPUT class="data" type="text" name="datainicio"id="datainicio" maxlength="10" size="12"> </div>
+    </td>
+    <td width="38" valign="middle"><div align="center" id='qtde_dias'>
+		<SPAN>Dias:</SPAN><BR>
+		<INPUT class="campo" type="text" id="qtdedias" onKeyUp="JumpField(this,'datafim');" onKeyPress="return soNumero(event);" name="qtdedias" size="2" maxlength="2"/></div>
+    </td>
+    <td width="149" valign="middle"><div align="center" id='dt_solicita_fim'>
+		<SPAN></SPAN><BR>
+		Até <input class="data" type="text" name="datafim" id="datafim" onKeyUp="JumpField(this,'operacao');" onFocus="ExisteLicenca();" maxlength="10" size="12"></div>
+    </td>
+    <td width="111" valign="middle"><div align="left" id='td_operacao'>
+        <B> Operação:</B><BR>
+		<SELECT id='operacao'>
+			<option value ="0">...</option>
+			<option value ="H">Homologar</option>
+			<option value ="N">Não Homologar</option>
+			<OPTION value ="S">Sobrestar</OPTION>
+			</SELECT> </div>
+    </td>
+    <td width="140" valign="middle"><div align="left" id='dt_operacao_ini'>
+        <B><SPAN id='ds_periodo'> Período:</SPAN><BR></B>De 
+		<INPUT class="data" type="text" name="sit_datainicio" id="sit_datainicio" maxlength="10" size="12"> </div>
+    </td>
+    <td width="144" valign="middle"><div align="center" id='dt_operacao_fim'> 
+        <SPAN></SPAN><BR>
+		Até <input class="data" type="text" name="sit_datafim" id="sit_datafim" maxlength="10" size="12">
+		</div>
+    </td>
+    <td width="65" rowspan="2" valign="middle" id='td_cid' rowspan="2">
+      <form name="form1" method="post" action="">
+        <div align="center"><b>
+        <font face="Verdana, Arial, Helvetica, sans-serif"> CID <br>
+        </font></b>
+        <textarea class="caixa_alta" type="text" name="cid" id="cid" rows="3" cols="5" maxlength="4"></textarea>
+      </form>
+    </td>
+  </tr>
+  <tr>
+    <td height="43" colspan="5" valign="middle"><div align="center" id='table_atestado02'>
+		<B>Base Legal:</B><BR>
+		<select id='base_legal'>
+		<option value ="0">...</option>
+		</select>
+      </div>
+    </td><BR>
+    <td valign="middle"><div align="center" id="tbfoot">
+		<INPUT type="button" id="Bt_InsereAtestado" value="Incluir Atestado" style="cursor:Pointer" onClick="InsereAtestado();"/>
+		<INPUT type="button" id="Bt_alteraAtestado" value="Alterar Atestado" style="cursor:Pointer" onClick="alteraAtestado();"/>
+    </td>
+  </tr>
+</table>
+
+<TABLE>
+<caption>ATESTADOS MÉDICOS INCLUÍDOS</caption>
+</TABLE>
+<TD>
+<B><DIV id="msg5"></DIV></B>
+<div id="lista2_div"></div>
+</TD>
+
+
+
+<TABLE><BR>
+<caption>PARECER MÉDICO</caption>
+<TBODY>
+</TABLE>
+
+<TABLE>
+	<TR>
+		<TD>
+			<B>Modelo de Parecer:</B><BR>
+			<select id='pareceres'> <B><FONT color=#236B8E><DIV id='msg'></DIV></FONT></B>
+			<option value ="0">...</option>
+			</select>
+		</TD>
+		<TD>
+		<DIV id='msg'>		
+		</TD> 
+
+
+
+
+</TABLE>
+<TABLE>
+	</TR>
+	<TR>	
+		<TD> 
+			<B>Parecer:</B><BR>
+			<textarea class="campo2" type="text" name="parecer" id="parecer" rows="4" cols="130" maxlength="4000"></textarea>
+		</TD>
+	</TR>
+</TABLE>
+	 			
+<TABLE>
+	<TR>
+		<TD>
+			&nbsp; &nbsp; &nbsp  <B>Membro:</B><BR> 1ª:
+			<select id='ass01'></select>
+		</TD>
+		<TD>
+			&nbsp; &nbsp; &nbsp  <B>Presidente:</B><BR> 2ª:
+			<select id='ass02'></select>
+		</TD>
+		<TD>
+			&nbsp; &nbsp; &nbsp  <B>Membro:</B><BR> 3ª:
+			<select id='ass03'></select>
+		</TD>
+	</TR>
+</TABLE> <BR>
+
+
+<DIV id='freqelet'></DIV>
+	
+	<INPUT type="button" id="impparecer" value="Emitir Parecer" style="cursor:Pointer" onClick="GravaParecer();"/>
+	
+	&nbsp; &nbsp; 
+	<INPUT type="button" id="modparecer" value="Modelos de Parecer" style="cursor:Pointer" onClick="window.open('cadastra_modelo_p.html','janela','menubar=no, toolbar=no, location=no, height = 480, width = 680');"/>
+
+	&nbsp; &nbsp; 
+	<INPUT type="button" id="reimpparecer" value="Reimpressão do Último Parecer" style="cursor:Pointer" onClick="ReimpParecer();"/>
+	
+	&nbsp; &nbsp; 
+	<INPUT type="button" style="cursor:Pointer" onclick="window.open('php/sai.php','_self')" name="sair" value="Sair do Sistema" class="submit">
+	
+	<DIV id='msg3'></DIV>
+	<DIV id="msg4"></DIV>
+
+	
+</BODY>
+
+</HTML>
+

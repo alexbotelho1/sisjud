@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-br" xml:lang="pt-br">
+<head>
+<meta http-equiv="Pragma" content="no-cache" />
+
+<meta name="language" content="pt-br" />
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Pareceres da Junta Médica</title>
+<link rel="stylesheet" type="text/css" href="css/principal2.css">
+<script src="scripts/funcoes.js"></script>
+<script type="text/javascript">
+
+function montaLogin(){
+        document.getElementById("tabLogin").style.display = "block";
+        if (document.getElementById("txtUser").value == "")
+        {
+        document.getElementById("txtUser").focus();
+        }
+        else{
+        document.getElementById("txtSenha").focus();
+        }
+}
+
+
+function IEHoverPseudo() {
+
+	var navItems = document.getElementById("primary-nav").getElementsByTagName("li");
+	
+	for (var i=0; i<navItems.length; i++) {
+		if(navItems[i].className == "menuparent") {
+			navItems[i].onmouseover=function() { this.className += " over"; }
+			navItems[i].onmouseout=function() { this.className = "menuparent"; }
+		}
+	}
+
+}
+
+
+function logar(){
+    if (!validaBranco(document.getElementById("txtUser").value))
+	{
+		alert('O CPF do usuário deve ser preenchido.');
+		document.getElementById("txtUser").focus();
+		return false;
+	}
+	
+	if (!validaBranco(document.getElementById("txtSenha").value))
+	{
+		alert('A senha deve ser preenchida.');
+		document.getElementById("txtSenha").focus();
+		return false;
+	}
+	var a = new AJAX();
+	a.url = "php/validaLogin.php";
+	a.metodo = 'POST';
+	a.modo = 'X';
+	a.params = 'usuario='+encodeURI(document.getElementById("txtUser").value)+'&senha='+encodeURI(document.getElementById("txtSenha").value);
+	a.addHeader("Content-type", "application/x-www-form-urlencoded");
+    var d = document.getElementById("login");
+    d.innerHTML = "<img border='0' src='imagens/ajax2.gif'> Verificando.... ";
+    a.processaresultado = function(xmldoc){
+               var d = document.getElementById("login");
+               d.style.display = "none";
+               if (!trataErro(xmldoc)){
+                  window.location.reload();
+                  return false;
+                  }
+               var no = xmldoc.getElementsByTagName('login')[0];
+                var d = document.getElementById("rodape");
+		        //montaMenu();
+				document.location='parecer.html';
+				
+    		}
+	a.conectar();		
+
+}
+
+</script>
+
+</head>
+
+<body onload="montaLogin();">
+
+<div id="outter">
+	<div id="inner">Pareceres da Junta Médica</div>
+</div>
+
+
+<div id="container" width: "180px;">
+	<div id="corpo">
+  		<div id="lateral">
+  		</div>
+        <div id="login">
+        <table id ="tabLogin" align="center" style="display:none; width:30%; border: 2px solid #777;">
+           <tr>
+		      <th width="10%">CPF:</th>
+			  <td width="40%"><input class="campo" type="text" id="txtUser" name="txtUser" onKeyPress="return soNumero(event);" onKeyUp="JumpField(this,'txtSenha');"  size="13" maxlength="11" /></td>
+		   </tr>
+		   <tr>
+		      <th width="10%">Senha:</th>
+			  <td width="40%"><input class="campo" type="password" id="txtSenha" name="txtSenha" size="10" onKeyPress="if ((window.event ? event.keyCode : event.which) == 13) { logar(); }"></td>
+		   </tr>
+		   <tr>
+		      <th width="10%">&nbsp;</th>
+		      <td width="40%">
+			  <input type="button" id = "entrar" value="Entrar" onClick="logar();"/></td>
+		   </tr>
+	   	</table>
+        </div>
+        <iframe src="mensagem.html" name="mainFrame" width="860" marginwidth="0" height="450" marginheight="0" scrolling="auto" frameborder="0"></iframe>
+	</div>
+	<div id="rodape">
+	&copy; 2008 Secretaria de Tecnologia da Informação
+	</div>
+</div>
+</body>
+</html>
+

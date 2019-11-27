@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-br" xml:lang="pt-br">
+<head>
+<meta http-equiv="Pragma" content="no-cache" />
+
+<meta name="language" content="pt-br" />
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<link rel="stylesheet" type="text/css" href="css/principal.css">
+<title>Cadastro de Ramal</title>
+<script src="scripts/funcoes.js"></script>
+
+<script type="text/javascript">
+function montaLogin(){
+        document.getElementById("tabLogin").style.display = "block";
+        if (document.getElementById("txtUser").value == "")
+        {
+        document.getElementById("txtUser").focus();
+        }
+        else{
+        document.getElementById("txtSenha").focus();
+        }
+}
+
+
+ function soNumero(event)
+{
+
+    var kCode = window.event ? event.keyCode : event.which //event.keyCode ? event.keyCode : event.which ? event.which : event.charCode;
+    var caract = new RegExp(/^[0-9 \b]+$/i);
+    var caract = caract.test(String.fromCharCode(kCode));
+
+    if(!caract){
+        return false;
+    }
+
+}			   
+function logar(){
+    if (!validaBranco(document.getElementById("txtUser").value))
+	{
+		alert('O nº do CPF deve ser preenchido.');
+		document.getElementById("txtUser").focus();
+		return false;
+	}
+	
+	if (!validaBranco(document.getElementById("txtSenha").value))
+	{
+		alert('A senha deve ser preenchida.');
+		document.getElementById("txtSenha").focus();
+		return false;
+	}
+	var a = new AJAX();
+	a.url = "php/validaLogin.php";
+	a.metodo = 'POST';
+	a.modo = 'X';
+	a.params = 'usuario='+encodeURI(document.getElementById("txtUser").value)+'&senha='+encodeURI(document.getElementById("txtSenha").value);
+	a.addHeader("Content-type", "application/x-www-form-urlencoded");
+    var d = document.getElementById("login");
+    d.innerHTML = "<img border='0' src='imagens/ajax2.gif'> Verificando.... ";
+    a.processaresultado = function(xmldoc){
+               var d = document.getElementById("login");
+               d.style.display = "none";
+               if (!trataErro(xmldoc)){
+                  window.location.reload();
+                  return false;
+                  }
+               var no = xmldoc.getElementsByTagName('login')[0];
+                var usuario = no.attributes[0];
+                //var d = document.getElementById("rodape");
+		        //d.innerHTML =usuario.value;
+		       	document.location='cadastro.html';		
+    		}
+	a.conectar();
+}
+
+
+</script>
+ 
+<style  type="text/css">
+ #outter {
+	width : 983px;	
+	height : 179px; 	
+	padding : 0;
+	margin : 0;
+	background-image: url(imagens/top_site_sf.png);
+	border : 0px solid green;
+	position : relative;
+}
+#inner {
+	position:absolute;
+	z-index : 2;
+	left: 37%;
+	top: 50%;
+	border : 0px solid blue;
+	margin-top : 20px;
+	margin-left : 30px;
+    font-size:24px;
+}
+</style>
+  
+ </head>  
+ <body onload="montaLogin();">
+
+	<div id="outter">
+		<div id="inner">Cadastro de Ramal</div>
+	</div>
+
+<div id="container">
+	<div id="corpo">
+  		<div id="lateral">
+  		</div>
+        <div id="login">
+			<table id ="tabLogin" align="center" style="display:none; width:28%; border: 2px solid #777;">
+				<tr>
+					<th align="left" width="10%">CPF:</th>
+					<td width="30%"><input class="campo" type="text" id="txtUser" name="txtUser" onKeyPress="return soNumero(event);" onKeyUp="JumpField(this,'txtSenha');"  size="13" maxlength="11" /></td>
+				</tr>
+				<tr>
+					<th align="left" width="10%">Senha:</th>
+					<td width="30%"><input class="campo" type="password" id="txtSenha" name="txtSenha" size="13" onKeyPress="if ((window.event ? event.keyCode : event.which) == 13) { logar(); }"></td>
+				</tr>
+				<tr>
+					<th width="10%">&nbsp;</th>
+					<td width="40%">
+					<input type="button" id = "entrar" value="Entrar" onClick="logar();"/></td>
+				</tr>
+			</table>
+		</div>
+				<iframe name="mainFrame" width="870" marginwidth="0" height="450" marginheight="0" scrolling="auto" frameborder="0"></iframe>
+	</div>
+		<div id="rodape">
+			&copy; 2008 Secretaria de Tecnologia da Informação
+		</div>
+</div>        	
+</body>
+</html>

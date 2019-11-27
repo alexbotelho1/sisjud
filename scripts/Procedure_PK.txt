@@ -1,0 +1,14 @@
+-- Inserir XXXX
+PROCEDURE nome_proc
+    (InId_req  in number,
+     InParecer in varchar2,
+     InAss01 in varchar2,
+     InAss02 varchar2,
+     InAss03 varchar2)
+ IS
+BEGIN
+INSERT INTO
+  NOME_TABELA ( colunas )
+    VALUES
+	( variáveis );
+ END nome_proc;

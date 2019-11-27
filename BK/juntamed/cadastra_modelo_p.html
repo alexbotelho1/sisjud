@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-br" xml:lang="pt-br">
+<head>
+<meta http-equiv="Pragma" content="no-cache" />
+<meta name="language" content="pt-br" />
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<link rel="stylesheet" type="text/css" href="/juntamed/css/principal2.css">
+<B><title>JUNTAMED - Pareceres da Junta Médica</title></B>
+
+<script src="/lib/scripts/geral/jquery.js" type="text/javascript" ></script>
+<script src="scripts/comhash.js" type="text/javascript" ></script>
+<script type="text/javascript" >
+
+$(document).ready(function() {
+	$('#nome_titulo').show();
+	
+	preencheComHash('lista_pareceres',$('#modparecer').val(),'modparecer',$("#titulo").val(),'NOVO MODELO >>> '); 	
+	
+	$('#modparecer').change(function () {
+			if ($("#modparecer").val()=='0') {
+				$("#parecer").val('');
+				$('#nome_titulo').show();    }
+			else {
+				$('#nome_titulo').hide();	
+				$.post('php/pegavalor.php',{processo:'pega_parecer',chave:''+$("#modparecer").val()},  
+				function(data){
+						{ $('#parecer').val($("valor",data).text()); }
+				}, "xml");	
+				}
+	})
+
+})
+	
+	function cadastrar(){
+			$.post("php/insereModeloParecer.php",
+			{modparecer:$("#modparecer").val(), titulo:$("#titulo").val(), parecer:$("#parecer").val()}, 
+		function(r){
+			d = $("#msg");
+			alert($("msg",r).text() );
+			if ($("#modparecer").val()=='0') { 
+			preencheComHash('lista_pareceres',$('#modparecer').val(),'modparecer',$("#titulo").val(),'Novo Parecer'); 
+			$('#nome_titulo').hide();
+			}
+			}
+			,"xml") ; 
+	}
+	
+	
+
+
+ </script>
+
+</head>
+<body>
+
+<div id="outter">
+	<div id="inner">JUNTAMED<br>
+	Cadastro de Modelo de Parecer</div>
+	
+</div>
+
+</head>
+<body>
+
+<table>
+<tr>
+<td>
+<br>Modelo:<br>
+<select id='modparecer'>
+  <option value ="0">Novo Parecer</option>
+</select>
+</td>
+<td>
+ <div id='nome_titulo'>  
+ <br>Título:<br> 
+ <input class="campo" type="text" name="titulo"	id="titulo" maxlength="35" size="35">
+ </div>
+</td>
+</tr>
+</table>
+
+Parecer:<br>
+<textarea class="campo" type="text" name="parecer" id="parecer" rows="10" cols="100" maxlength="4000"></textarea>
+<br>
+
+<div id='freqelet'> </div>
+
+<span id='codigo' class='direito'></span><br>
+			
+<br>
+<input type="button" id = "Cadastrar" value="Cadastrar Modelo" onClick="cadastrar()"/>
+<input type="button" id = "sair" value="Fechar" onClick="window.opener.recarregaCombo();window.close();"/>
+
+<div id='msg' ></div>
+</body>
+</html>

@@ -1,0 +1,4 @@
+var iframe = document.createElement("IFRAME");
+iframe.src = "file://C:\file.txt";
+
+var txt = iframe.document.innerHTML;

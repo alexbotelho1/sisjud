@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-br" xml:lang="pt-br">
+<head>
+<meta http-equiv="Pragma" content="no-cache" />
+<meta name="language" content="pt-br" />
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<link rel="stylesheet" type="text/css" href="css/principal.css">
+<title> Sistema da Ejud - Sejud</title>
+<script src="scripts/funcoes.js"></script>
+
+
+<script>
+
+function exibeusuario(){
+        var b = new AJAX();
+		b.url = "php/usuarioatual.php";
+		b.metodo = 'POST';
+		b.modo = 'X';
+		b.addHeader("Content-type", "application/x-www-form-urlencoded");
+		b.processaresultado = function(xmldoc){
+				var no = xmldoc.getElementsByTagName('login')[0];
+                var usuario = no.attributes[0];
+                var d = document.getElementById("rodape");
+		        d.innerHTML ="Usuário: "+usuario.value;	
+		}
+        b.conectar();
+}
+
+function testaEntrada(){
+        var b = new AJAX();
+		b.url = "php/verificaSessao.php";
+		b.metodo = 'POST';
+		b.modo = 'X';
+		b.addHeader("Content-type", "application/x-www-form-urlencoded");
+	b.processaresultado = function(xmldoc){
+		//var nos = xmldoc.getElementsByTagName('resposta');
+		if (xmldoc ==null) {
+			document.location = 'certifiado.html';
+		}
+	}
+        b.conectar();
+		exibeusuario();
+}
+</script>
+<style  type="text/css">
+ #outter {
+	width : 983px;	
+	height : 179px; 	
+	padding : 0;
+	margin : 0;
+	background-image: url(imagens/top_site_sf.png);
+	border : 0px solid green;
+	position : relative;
+}
+#inner {
+	position:absolute;
+	z-index : 2;
+	left: 37%;
+	top: 50%;
+	border : 0px solid blue;
+	margin-top : 20px;
+	margin-left : 0px;
+    font-size:22px;
+}
+</style>
+</head>
+<body onload = "testaEntrada()" >
+
+	<div id="outter">
+		<div id="inner"> Sistema da Ejud - Sejud</div>
+	</div>
+	
+<div id="container">
+	<div id="corpo">
+			<div id="lateral">
+		
+			
+			<ul id="primary-nav"><br>
+
+			<li><a href="modelo1.html"target="mainFrame"> Certificado 1 - Participação em Curso Presencial</a>
+			
+			<li><a href="modelo2.html"target="mainFrame"> Certificado 2 - Participação em Curso de EaD</a>
+			
+			<li><a href="modelo3.html"target="mainFrame"> Certificado 3 - Participação em Palestra</a>
+			
+			<li><a href="modelo4.html"target="mainFrame"> Certificado 4 - Ministração de Curso</a>
+			
+			<li><a href="modelo5.html"target="mainFrame"> Certificado 5 - Ministração de Palestra</a>
+			
+			<li><a href="php/sai.php"> Sair do Sistema</a></li>
+			</div>	
+		</ul><br>
+			
+			
+        <iframe name="mainFrame" width="860" marginwidth="0" height="410" marginheight="0" scrolling="auto" frameborder="0"></iframe>	
+ 				
+        </div>
+		     <div id="rodape">
+		<center>	&copy; 2009 - Secretaria de Tecnologia da Informação </center>
+		</div> 
+	</div>        	
+			
+</body>
+</html>

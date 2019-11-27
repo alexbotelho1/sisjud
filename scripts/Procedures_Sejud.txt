@@ -1,0 +1,189 @@
+CREATE OR REPLACE PACKAGE sisjud
+  IS
+
+-- Retorna Login
+
+Type LoginRecType is RECORD(
+    cdserv varchar2(6) );
+
+
+TYPE UsuarioRecType is RECORD(
+    nome varchar2(200));
+
+TYPE insereCertificadoRecType is RECORD(
+msg varchar2(200));
+
+
+
+
+Type LoginCurType is REF CURSOR RETURN LoginRecType;
+
+Type UsuarioCurType is REF CURSOR RETURN UsuarioRecType;
+
+Type insereCertificadoCurType is REF CURSOR RETURN insereCertificadoRecType;
+
+
+PROCEDURE retorna_Login
+   ( InLogin IN varchar2,
+     InSenha IN varchar2,
+     OutResultado IN OUT LoginCurType);
+
+PROCEDURE retorna_useratual
+   ( InUsuario IN varchar2,
+     OutResultado IN OUT UsuarioCurType);
+
+
+
+ -- Insere os Certificados
+    PROCEDURE insereCertificado
+    (InUsuario  VARCHAR2,
+     Incodigo IN VARCHAR2,
+     Incod_curso VARCHAR2,
+     Innome_curso VARCHAR2,
+     Innome_agraciado VARCHAR2,
+     Indt_inicio VARCHAR2,
+     Indt_fim VARCHAR2,
+     Incarga VARCHAR2,
+     Inlocalidade VARCHAR2,
+     Indt_exp VARCHAR2,
+     OutResultado IN OUT insereCertificadoCurType );
+
+TYPE listaCertificadoRecType is RECORD(
+NOME_AGRACIADO varchar2(45),
+NOME_CURSO VARCHAR2(40),
+DT_INICIO VARCHAR2(10),
+DT_FIM  VARCHAR2(10),
+DT_EXP VARCHAR2(10) );
+
+Type listaCertificadoCurType is REF CURSOR RETURN listaCertificadoRecType;
+
+ PROCEDURE listaCertificado
+   ( InSessao VARCHAR2,
+     Incodigo IN VARCHAR2,
+     OutResultado IN OUT listaCertificadoCurType );
+
+
+ END;
+/
+
+CREATE OR REPLACE PACKAGE BODY sisjud
+IS
+
+PROCEDURE verifica(teste boolean,msg varchar2) as -- Verifica e aciona erro
+BEGIN
+
+    if teste then
+    Raise_Application_Error(-20123,'['||msg||']');
+    end if;
+  end;
+
+
+  FUNCTION cpfsenha( p_cpf VARCHAR2, p_senha VARCHAR2) RETURN VARCHAR2 IS
+  QNT NUMBER;
+  COD VARCHAR2(6) :=  NULL;
+  BEGIN
+  SELECT Count(*) INTO QNT FROM folha.senhas WHERE REPLACE(REPLACE(CPF,'.'),'-')=
+  REPLACE(REPLACE(p_cpf,'.'),'-') AND SENHA=p_SENHA;
+--  Dbms_Output.Put_Line('Quantidade: '||qnt);
+  IF QNT >= 1 THEN
+     SELECT Max(CD_SERV) INTO COD FROM rh.TB_SERVIDOR WHERE Trim(To_Char(CPF,'00000000000'))=
+     REPLACE(REPLACE(p_cpf,'.'),'-');
+--     Dbms_Output.Put_Line('Código: '||cod);
+  END IF;
+    RETURN COD;
+
+  END;
+
+PROCEDURE retorna_Login
+   ( InLogin IN varchar2,
+     InSenha IN varchar2,
+     OutResultado IN OUT LoginCurType)
+
+IS
+v_cd VARCHAR2(6);
+v_qnt NUMBER;
+begin
+verifica(InLogin is null ,'Usuário não Logado.');
+verifica(InSenha IS NULL ,'Senha não informada.');
+v_cd := cpfsenha(InLogin,InSenha);
+
+--SELECT Max(CD_SERV) INTO v_cd FROM TB_SERVIDOR WHERE Trim(To_Char(CPF,'00000000000'))=
+--REPLACE(REPLACE(InLogin,'.'),'-');
+
+verifica(v_cd is null ,'Usuário ou Senha inválidos ');
+
+SELECT Count(*) INTO v_qnt
+from rh.tb_servidor
+WHERE cd_serv=v_cd and cd_div_func in (11,12,25) and cd_sit_serv in (1,2,4);
+
+verifica(v_qnt=0 ,'Não há dados para este CPF');
+
+INSERT INTO tb_acesso_sisjud VALUES(v_cd,sysdate);
+
+open OutResultado for select v_cd from dual;
+
+EXCEPTION
+    WHEN OTHERS THEN
+    RAISE_APPLICATION_ERROR(-20123,fct_trata_erro('RETORNA_LOGIN', sqlcode, sqlerrm, 'InLogin ' ||
+    InLogin || ' InSenha' || InSenha,''));
+
+END retorna_Login;
+
+
+
+
+PROCEDURE retorna_useratual
+   ( InUsuario IN varchar2,
+     OutResultado IN OUT UsuarioCurType)
+IS
+
+BEGIN
+verifica(InUsuario is null ,'Usuário não Logado.');
+
+  open OutResultado for select nm_serv from rh.tb_servidor WHERE cd_serv = InUsuario;
+
+END retorna_useratual;
+
+-- Insere Certificado (Corpo)
+
+  PROCEDURE insereCertificado
+    (InUsuario IN VARCHAR2,
+     Incodigo IN VARCHAR2,
+     Incod_curso IN VARCHAR2,
+     --Incpf IN NUMBER,
+     Innome_curso IN VARCHAR2,
+     Innome_agraciado IN VARCHAR2,
+     Indt_inicio IN VARCHAR2,
+     Indt_fim IN VARCHAR2,
+     Incarga IN VARCHAR2,
+     Inlocalidade IN VARCHAR2,
+     Indt_exp IN VARCHAR2,
+    OutResultado IN OUT insereCertificadoCurType )
+  IS
+  BEGIN
+  INSERT INTO
+            certificado (codigo, cod_curso, nome_curso, nome_agraciado, dt_inicio, dt_fim, carga, localidade, dt_exp)
+            SELECT Incodigo, Incod_curso, Innome_curso, Innome_agraciado, To_Date(Indt_inicio,'dd/mm/yyyy'), To_Date(Indt_fim,'dd/mm/yyyy'), Incarga, Inlocalidade, To_Date(Indt_exp,'dd/mm/yyyy') FROM DUAL;
+	          --( Incod_curso, Incpf, Innome_curso, Innome_agraciado, Innome_al_conv, Insetor_al_conv, To_Date(Indt_inicio,'dd/mm/yyyy'), To_Date(Indt_fim,'dd/mm/yyyy'), Incarga, Inlocalidade, To_Date(Indt_exp,'dd/mm/yyyy'));
+
+  OPEN OutResultado FOR SELECT 'CERTIFICADO GRAVADO COM SUCESSO!' FROM DUAL;
+
+  END insereCertificado;
+
+
+PROCEDURE listaCertificado
+   ( InSessao VARCHAR2,
+     Incodigo IN VARCHAR2,
+     OutResultado IN OUT listaCertificadoCurType )
+IS
+BEGIN
+--lg := verificalogin(InSessao);
+    OPEN OutResultado FOR
+      SELECT  nome_agraciado, nome_curso, dt_inicio, dt_fim, dt_exp FROM CERTIFICADO WHERE codigo = Incodigo;
+END listaCertificado;
+
+
+
+END;
+/
+

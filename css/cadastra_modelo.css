@@ -1,0 +1,74 @@
+#outter {
+	width : 950px;	
+	height : 179px; 	
+	padding : 0;
+	margin : 0;
+	background-image: url(/lib/imagens/top_site_sf.png);
+	border : 0px solid green;
+	position : relative;
+}
+
+#inner {
+	position:absolute;
+	z-index : 2;
+	left: 30%;
+	top: 50%;
+	border : 0px solid blue;
+	margin-top : 20px;
+	margin-left : 0px;
+    font-size:22px;
+}
+
+
+#tb_afast  {
+  width: 950px;
+}
+
+#tb_afast td {
+  border-right: 1px solid #aaa;
+  border-top: 1px solid #aaa;
+  font-family: verdana;
+  font-size: 12px;
+  height: 12px;
+  padding: 10px 3px;
+  text-align: justify;
+}
+
+#tb_afast td.data {
+  width: 120px;
+}
+
+table.geral {
+	border : 0px solid blue;
+}
+
+td.geral {
+	border : 0px solid blue;
+	width: 300px;
+}
+
+
+.foto {
+  width: auto;
+  height: 212px;
+ background-color: #EBF1F1;
+ border:1px solid gray;
+}
+
+#dados {
+ padding: 5px 5px 5px 10px;
+ margin-left: 10px;
+ margin-top: 5px;
+ background-color: #F5F5F5	;
+ border:1px solid gray;
+ font-size: 80%;
+ height: 200px;
+ width: 650px;
+}
+
+.direito {
+ font-size: 60%; 
+ text-align: right;
+}
+
+

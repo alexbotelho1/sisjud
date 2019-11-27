@@ -1,0 +1,259 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 STRict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-sTRict.dTD">
+
+<HTML xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR" xml:lang="pt-BR">
+<HEAD>
+
+<meta http-equiv="Pragma" content="no-cache" />
+<meta name="language" content="pt-BR" />
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+
+<TITLE> Sistema da Ejud - Sejud</TITLE>
+
+
+<link rel="stylesheet" type="text/css" href="/juntamed/css/principal2.css"> 
+<link rel="stylesheet" type="text/css" href="/sejud/css/principal.css">
+<link rel="stylesheet" type="text/css" href="/lib/scripts/geral/autocomplete/jquery.autocomplete.css" />
+<link rel="stylesheet" type="text/css" href="/lib/css/ui.datepicker.css"/>
+
+<script src="/lib/scripts/geral/jquery.js" type="text/javascript" ></script>
+<script src="/lib/scripts/geral/jquery.maskedinput.js" type="text/javascript" ></script>
+<script src="/lib/scripts/geral/ui.datepicker.js" type="text/javascript" ></script>
+<script src="/lib/scripts/geral/ui.datepicker-pt-BR.js" type="text/javascript" ></script>
+<script src="/lib/scripts/geral/autocomplete/lib/jquery.bgiframe.min.js" type="text/javascript" ></script>
+<script src="/lib/scripts/geral/autocomplete/lib/jquery.dimensions.min.js" type="text/javascript" ></script>
+<script src="/lib/scripts/geral/autocomplete/jquery.autocomplete.min.js" type="text/javascript" ></script>
+<script src="/lib/scripts/TRT14/dataehoras.js" type="text/javascript" ></script>
+
+<script src="scripts/comhash.js" type="text/javascript" ></script>
+<script src="/scripts/funcoes.js" type="text/javascript" ></script>
+<script src="scripts/Sejud.js" type="text/javascript" ></script>
+<!-- <script src="scripts/parecer.js" type="text/javascript" ></script> -->
+
+
+
+</HEAD>
+
+<div id="outter">
+		<div id="inner"> Sistema da Ejud - Sejud</div>
+	</div>
+
+<BODY onload="listaCertificado()">
+          <onload="montafocus();">
+
+	
+<TABLE><BR>
+<caption> Expedição de Certificado - Participação de Aluno(a) em Curso Presencial:</caption><br>
+</TABLE>
+<TABLE>
+	<DIV>	
+	    <TD> 
+			<p><label><B> Nome de Aluno(a) do TRT da 14a. Região:</B></label><BR>
+			<input type="text"  id='nome_agraciado' size='54'/>	
+		</TD>
+		
+</TABLE>
+<TABLE>
+		<td width="6%"> Nome do Curso:<br>
+			<select name="nome_curso" id="nome_curso">
+				<option value=''></option>
+				<option value='Curso do Sistema AUD'> Curso do Sistema AUD</option>
+				<option value='Curso de Direito Administrativo'> Curso de Direito Administrativo</option>
+				<option value='Curso de Formação de Brigada de Incêndio'> Curso de Formação de Brigada de Incêndio</option>
+				<option value='Curso de Desenvolvimento Gerencial'> Curso de Desenvolvimento Gerencial</option>
+				<option value='Curso de Atendimento ao Jurisdicionado'> Curso de Atendimento ao Jurisdicionado</option>
+				<option value='Curso de Pós-Graduação em Direito Eleitoral e Processo Eleitoral'> Curso de Pós-Graduação em Direito Eleitoral e Processo Eleitoral</option>
+				<option value='Curso de Pós-Graduação - MBA em Direito e Processo do Trabalho'> Curso de Pós-Graduação - MBA em Direito e Processo do Trabalho</option>
+	
+        <td width="6%"> Código do Curso:<br>
+			<select name="cod_curso" id="cod_curso">
+				<option value=''></option>
+				<option value='AUD1'> AUD01</option>
+				<option value='BI001'> BI001</option>
+				<option value='DG001'> DG001</option>
+				<option value='AJ001'> AJ001</option>
+				<option value='POS01'> POS01</option>
+				<option value='POS02'> POS02</option>					
+					
+		</table><BR><P>	
+				
+			
+	    <!-- Insere as datas de início e término do curso -->
+		
+		<TABLE>
+		<td width="140" valign="middle"><div align="left">
+           <SPAN id='ds_periodo'> Data de início do curso (dd/mm/aaaa):</SPAN><BR>
+		   <INPUT class="data" type="text" name="dt_inicio" id="dt_inicio" maxlength="10" size="12">
+		   </div>
+        </td>
+		
+        <td width="144" valign="middle"><div align="left"> 
+           <SPAN> Data de término do curso (dd/mm/aaaa):</SPAN><BR>
+		   <input class="data" type="text" name="dt_fim" id="dt_fim" maxlength="10" size="12">
+		  </div>
+        </td> 
+		</TABLE><P>
+		
+		<TABLE>
+			<td width="6%"> Carga horária do curso:<br>
+			<select name="carga" id="carga">
+				<option value=''></option>
+				<option value='1'> 1h</option>
+				<option value='2'> 2hs</option>
+				<option value='3'>  4hs</option>
+				<option value='5'>  5hs</option>
+				<option value='6'> 6hs</option>
+				<option value='7'> 7hs</option>
+				<option value='8'> 8hs</option>
+				<option value='9'> 9hs</option>
+				<option value='10'> 10hs</option>
+				<option value='15'> 15hs</option>
+				<option value='20'> 20hs</option>
+				<option value='25'> 25hs</option>
+				<option value='30'> 30hs</option>
+				<option value='35'> 35hs</option>
+				<option value='40'> 40hs</option>
+				<option value='45'> 45hs</option>
+				<option value='50'> 50hs</option>
+				<option value='55'> 55hs</option>
+				<option value='60'> 60hs</option>
+				<option value='65'> 65hs</option>
+				<option value='70'> 70hs</option>
+				<option value='75'> 75hs</option>
+				<option value='80'> 80hs</option>
+				<option value='85'> 85hs</option>
+				<option value='90'> 90hs</option>
+				<option value='95'> 95hs</option>
+				<option value='100'> 100hs</option>				
+			</TABLE>	
+
+<TABLE>			
+			<td width="6%"> Localidade:<br>
+			<select name="localidade" id="localidade">
+				<option value=''></option>
+				<option value='Porto Velho/RO'>Porto Velho/RO</option>
+				<option value='Rio Branco/AC'>Rio Branco/AC</option>
+				<option value='Ariquemes/RO'>Ariquemes/RO</option>
+				<option value='Buritis/RO'>Buritis/RO</option>
+				<option value='Cacoal/RO'>Cacoal/RO</option>
+				<option value='Colorado do Oeste/RO'>Colorado do Oeste/RO</option>
+				<option value='Costa Marques/RO'>Costa Marques/RO</option>			
+				<option value='Guajará-Mirim/RO'>Guajará-Mirim/RO</option>
+				<option value='Jaru/RO'>Jaru/RO</option>
+				<option value='Ji-Paraná/RO'>Ji-Paraná/RO</option>			
+				<option value='Machadinho do Oeste/RO'>Machadinho do Oeste/RO</option>
+				<option value='Ouro Preto do Oeste/RO'>Ouro Preto do Oeste/RO</option>
+				<option value='Pimenta Bueno/RO'>Pimenta Bueno/RO</option>
+				<option value='Rolim de Moura/RO'>Rolim de Moura/RO</option>
+				<option value='São Miguel do Guaporé/RO'>São Miguel do Guaporé/RO</option>
+				<option value='Vilhena/RO'>Vilhena/RO</option>
+				<option value='Epitaciolândia/AC'>Epitaciolândia/AC</option>
+				<option value='Cruzeiro do Sul/AC'>Cruzeiro do Sul/AC</option>
+				<option value='Feijó/AC'>Feijó/AC</option>
+				<option value='Plácido de Castro/AC'>Plácido de Castro/AC</option>
+				<option value='Sena Madureira/AC'>Sena Madureira/AC</option>
+				</select>
+			</p>
+
+        <!-- Insere as data de expedição do Certificado -->
+			
+		<td width="140" valign="middle"><div align="left">
+           <SPAN id='ds_periodo'> Data de expedição (dd/mm/aaaa):</SPAN><BR>
+		   <INPUT class="data" type="text" name="dt_exp" id="dt_exp" maxlength="10" size="12">
+		   </div>
+        </td><P>
+		</TABLE><p>
+	
+		
+							
+<DIV id="foto">
+
+<TABLE>
+	 <TR>
+		<TD>
+			<img id="imgfoto" class='foto'/><BR> &nbsp; 
+			<SPAN id='codigo' class='direito'></SPAN>
+		</TD>
+		<TD>
+			<P id='dados' >
+					<b>Cargo</b><BR>
+					<SPAN id='cargo'></SPAN><BR>
+					<SPAN>
+				<TABLE>
+					<TR><BR>
+						<TD>
+							<b id='tit_classe'>Classe / Padrão</b><BR>
+							<SPAN id='classe'></SPAN><BR>
+						</TD>
+					<TD >
+						<b>Posse</b><BR>
+						<SPAN id='posse'></SPAN>
+					</TD>
+						<TD>
+							<b>Exercício</b><BR>
+							<SPAN id='exercicio'></SPAN><BR><BR>
+						</TD>
+					</TR>
+				</TABLE>			
+				</SPAN>	
+				<SPAN>	
+				<table>
+					<TR>						
+							<B>Setor</B><BR>
+							<SPAN id='setor'></SPAN><BR><BR>
+						
+							<TD>
+								<b id='tit_funcao'>Cargo/Função</b><BR>
+								<SPAN id='funcao'></SPAN><BR>
+							</TD>
+							<TD>
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Ramal</b><BR>
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <SPAN id='ramal'></SPAN><BR>
+							</TD>
+						
+					</TR>
+					</table>
+                </SPAN>	
+			</P>
+		</TD>
+	 </TR>
+</TABLE>
+</DIV>
+<BR>
+
+<DIV id='msg2'></DIV>
+    <td valign="middle"><div align="center" id="tbfoot">
+		<INPUT type="button" id="Bt_insereCertificado" value="Incluir Certificado" style="cursor:Pointer" onClick="insereCertificado();"/><br><p>
+		<!-- <INPUT type="button" id="Bt_alteraCertificado" value="Alterar Certificado" style="cursor:Pointer" onClick="alteraCertificado();"/>
+		<INPUT type="button" id="Bt_excluiCertificado" value="Excluir Certificado" style="cursor:Pointer" onClick="excluiCertificado();"/><br><p> -->
+    </td>
+  </tr>
+</table><p>
+
+<TABLE>
+<caption> CERTIFICADOS EM CURSOS PRESENCIAIS INCLUÍDOS</caption>
+</TABLE>
+<TD>
+<B><DIV id="msg5"></DIV></B>
+<div id="lista2_div"></div>
+</TD>
+
+	
+	&nbsp; &nbsp; 
+	<INPUT type="button" style="cursor:Pointer" onclick="window.open('php/sai.php','_self')" name="sair" value="Sair do Sistema" class="submit"><BR><P>
+	
+	<DIV id='msg3'></DIV>
+	<DIV id="msg4"></DIV><BR><P>
+	
+	<iframe name="mainFrame" width="860" marginwidth="0" height="110" marginheight="0" scrolling="auto" frameborder="0"></iframe>	
+					
+		<li><a href="certificado.html"target="mainFrame"> Menu Principal (Voltar <-)</a><p>
+					
+		<div id="rodape">
+		<center>	&copy; 2009 - Secretaria de Tecnologia da Informação </center>
+		</div> 
+
+	
+</BODY>
+
+</HTML>
+
